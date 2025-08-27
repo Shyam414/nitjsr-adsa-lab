@@ -4,15 +4,66 @@
 
 #define MAX 100
 
-int stack[MAX];
-int top = -1;
+char opStack[MAX];
+int opTop = -1;
 
-void pushInt(int x) {
-    if (top < MAX - 1) stack[++top] = x;
+void pushOp(char c) {
+    if (opTop < MAX - 1) opStack[++opTop] = c;
+}
+char popOp() {
+    if (opTop >= 0) return opStack[opTop--];
+    return '\0';
+}
+char peekOp() {
+    if (opTop >= 0) return opStack[opTop];
+    return '\0';
 }
 
+int precedence(char op) {
+    if (op == '/' || op == '*') return 2;
+    if (op == '+' || op == '-') return 1;
+    return 0;
+}
+
+void infixToPostfix(char* exp, char* output) {
+    int i = 0, k = 0;
+    while (exp[i] != '\0') {
+        char c = exp[i];
+
+        if (isdigit(c)) {
+            output[k++] = c;
+        }
+        else if (c == '(') {
+            pushOp(c);
+        }
+        else if (c == ')') {
+            while (opTop >= 0 && peekOp() != '(') {
+                output[k++] = popOp();
+            }
+            popOp(); // remove '('
+        }
+        else { // operator
+            while (opTop >= 0 && precedence(peekOp()) >= precedence(c)) {
+                output[k++] = popOp();
+            }
+            pushOp(c);
+        }
+        i++;
+    }
+    while (opTop >= 0) {
+        output[k++] = popOp();
+    }
+    output[k] = '\0';
+}
+
+int valStack[MAX];
+int valTop = -1;
+
+void pushInt(int x) {
+    if (valTop < MAX - 1) valStack[++valTop] = x;
+}
 int popInt() {
-    if (top >= 0) return stack[top--];
+    if (valTop >= 0) return valStack[valTop--];
     return 0;
 }
 
@@ -20,9 +71,9 @@ int evalPostfix(char* exp) {
     int i = 0;
     while (exp[i] != '\0') {
         char c = exp[i];
-        
+
         if (isdigit(c)) {
-            pushInt(c - '0'); // convert char to int
+            pushInt(c - '0'); // char → int
         }
         else {
             int b = popInt();
@@ -39,19 +90,14 @@ int evalPostfix(char* exp) {
     return popInt();
 }
 
-int main(int argc, char* argv[]) {
-    if (argc != 2) {
-        printf("Usage: %s <infix_expression>\n", argv[0]);
-        return 1;
-    }
+int main() {
+    char infix[MAX], postfix[MAX];
+    printf("Enter infix expression: ");
+    scanf("%s", infix);
 
-    char postfix[MAX];
-    extern void infixToPostfix(char* exp, char* output); // use function from part 1
-    
-
-    infixToPostfix(argv[1], postfix);
+    infixToPostfix(infix, postfix);
     printf("Postfix: %s\n", postfix);
-    printf("Value: %d\n", evalPostfix(postfix));
 
+    printf("Value: %d\n", evalPostfix(postfix));
     return 0;
 }
