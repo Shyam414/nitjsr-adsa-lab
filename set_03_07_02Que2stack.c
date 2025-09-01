@@ -14,7 +14,7 @@ int isEmpty2() { return top2 == -1; }
 
 // Method 2: Pop costly
 void enqueue(int x) {
-    push1(x); // simple push
+    push1(x); 
 }
 
 int dequeue() {
@@ -22,12 +22,10 @@ int dequeue() {
         printf("Queue Underflow!\n");
         return -1;
     }
-    // Move everything except last to stack2
     while (top1 > 0) {
         push2(pop1());
     }
-    int front = pop1(); // dequeue element
-    // Move back to stack1
+    int front = pop1(); 
     while (!isEmpty2()) {
         push1(pop2());
     }

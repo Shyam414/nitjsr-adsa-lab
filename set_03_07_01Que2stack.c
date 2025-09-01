@@ -17,9 +17,7 @@ void enqueue(int x) {
     while (!isEmpty1()) {
         push2(pop1());
     }
-    // Push new element to stack1
     push1(x);
-    // Move everything back to stack1
     while (!isEmpty2()) {
         push1(pop2());
     }
