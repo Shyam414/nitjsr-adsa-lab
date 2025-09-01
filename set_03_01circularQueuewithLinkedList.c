@@ -26,3 +26,41 @@ void enqueue(int x){
         rear->next=front; 
     }
 }
+
+void dequeue(){
+    if(isEmpty()){
+        printf("Queue Underflow!\n");
+        return;
+    }
+    if(front==rear){
+        free(front);
+        front=rear=NULL;
+    } else {
+        Node* temp=front;
+        front=front->next;
+        rear->next=front; 
+        free(temp);
+    }
+}
+
+int peek(){
+    if(isEmpty()){
+        printf("Queue is Empty!\n");
+        return -1;
+    }
+    return front->data;
+}
+
+void display(){
+    if(isEmpty()){
+        printf("Queue is Empty!\n");
+        return;
+    }
+    Node* temp=front;
+    printf("Queue: ");
+    do{
+        printf("%d ",temp->data);
+        temp=temp->next;
+    }while(temp!=front);
+    printf("\n");
+}
