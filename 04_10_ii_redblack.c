@@ -15,7 +15,6 @@ typedef struct RBTree {
     Node *NIL; // sentinel
 } RBTree;
 
-// ------------------- Helpers & Creation -------------------
 
 RBTree* createTree() {
     RBTree *T = (RBTree*)malloc(sizeof(RBTree));
@@ -40,7 +39,6 @@ void freeNode(Node *n) {
     free(n);
 }
 
-// ------------------- Rotations -------------------
 
 void leftRotate(RBTree *T, Node *x) {
     Node *y = x->right;
