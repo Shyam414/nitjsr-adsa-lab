@@ -1,10 +1,7 @@
 #include <stdio.h>
 #define V 4
 
-int graph[V][V]={{0,1,1,1},
-                 {1,0,1,0},
-                 {1,1,0,1},
-                 {1,0,1,0}};
+int graph[V][V]={{0,1,1,1},{1,0,1,0},{1,1,0,1},{1,0,1,0}};
 int colors[V];
 
 int isSafe(int v,int c){
@@ -36,7 +33,7 @@ void graphColoring(int m){
 }
 
 int main(){
-    int m=3; 
+    int m=3;
     graphColoring(m);
     return 0;
 }
