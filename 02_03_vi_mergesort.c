@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include <stdlib.h>
 
 void merge(int arr[], int low, int mid, int up){
     int n1=mid-low+1;
@@ -19,7 +20,8 @@ void merge(int arr[], int low, int mid, int up){
     while(r<n2){
         arr[k++]=R[r++];
     }
-
+    free(L);
+    free(R);
 }
 
 void mergeSort(int arr[],int l,int h){
